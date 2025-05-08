@@ -11,26 +11,28 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var storyLabel: UILabel!
-    @IBOutlet weak var choice1Button: UIButton!
-    @IBOutlet weak var choice2Button: UIButton!
+    @IBOutlet weak var choiceFirstButton: UIButton!
+    @IBOutlet weak var choiceSecondButton: UIButton!
     
-    let storyBrain = StoryBrain()
+    var storyBrain = StoryBrain()
     
     @IBAction func choiceMade(_ sender: UIButton) {
         let userChoice = sender.currentTitle ?? ""
+        let numberOfStory = storyBrain.numberOfStory()
         storyBrain.nextStory(userChoice: userChoice)
-        updateUi()
+        updateUi(numberOfStory: numberOfStory)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateUi( )
+        updateUi(numberOfStory: 0)
     }
     
-    func updateUi() {
-        storyLabel.text = storyBrain.storyText[storyNumber].title
-        choice1Button.setTitle(storyBrain.storyText[storyNumber].choice1, for: .normal)
-        choice2Button.setTitle(storyBrain.storyText[storyNumber].choice2, for: .normal)
+    func updateUi(numberOfStory: Int) {
+        let choice = StoryText().storyText[numberOfStory]
+        storyLabel.text = choice.title
+        choiceFirstButton.setTitle(choice.choiceFirst, for: .normal)
+        choiceSecondButton.setTitle(choice.choiceSecond, for: .normal)
     }
 }
 
