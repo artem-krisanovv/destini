@@ -13,9 +13,10 @@ import Foundation
 struct StoryBrain {
     
     var storyNumber = 0
+    let storyArray = StoryModel.getStoryText()
     
     mutating func nextStory(userChoice: String) {
-        let choice = StoryModel.getStoryText()[numberOfStory()]
+        let choice = storyArray[numberOfStory()]
         if userChoice == choice.choiceFirst {
             storyNumber = choice.choiceFirstDestination
         } else {
