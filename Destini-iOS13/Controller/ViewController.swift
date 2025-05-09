@@ -16,11 +16,12 @@ class ViewController: UIViewController {
     
     var storyBrain = StoryBrain()
     
+    
     @IBAction func choiceMade(_ sender: UIButton) {
         let userChoice = sender.currentTitle ?? ""
-        let numberOfStory = storyBrain.numberOfStory()
+        let storyNumber = storyBrain.numberOfStory()
         storyBrain.nextStory(userChoice: userChoice)
-        updateUi(numberOfStory: numberOfStory)
+        updateUi(numberOfStory: storyNumber)
     }
     
     override func viewDidLoad() {
@@ -29,7 +30,7 @@ class ViewController: UIViewController {
     }
     
     func updateUi(numberOfStory: Int) {
-        let choice = StoryText().storyText[numberOfStory]
+        let choice = StoryModel.getStoryText()[storyBrain.numberOfStory()]
         storyLabel.text = choice.title
         choiceFirstButton.setTitle(choice.choiceFirst, for: .normal)
         choiceSecondButton.setTitle(choice.choiceSecond, for: .normal)
