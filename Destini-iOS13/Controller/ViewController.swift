@@ -17,9 +17,6 @@ class ViewController: UIViewController {
     var storyBrain = StoryBrain()
     let model = StoryModel.getStoryText()
 
-    
-    
-    
     @IBAction func choiceMade(_ sender: UIButton) {
        guard let userChoice = sender.currentTitle else { return }
         storyBrain.nextStory(userChoice: userChoice, model: model)
