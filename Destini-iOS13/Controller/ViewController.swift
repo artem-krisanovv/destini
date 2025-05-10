@@ -14,26 +14,35 @@ class ViewController: UIViewController {
     @IBOutlet weak var choiceFirstButton: UIButton!
     @IBOutlet weak var choiceSecondButton: UIButton!
     
-    var storyBrain = StoryBrain()
-    let model = StoryModel.getStoryText()
-
-    @IBAction func choiceMade(_ sender: UIButton) {
-       guard let userChoice = sender.currentTitle else { return }
-        storyBrain.nextStory(userChoice: userChoice, model: model)
-        let storyNumber = storyBrain.storyNumber
-        updateUi(numberOfStory: storyNumber)
-    }
+    private var currentBranch: AnswerThread = .start
+    private let storyBrain = StoryBrain()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateUi(numberOfStory: 0)
+        updateUi()
     }
     
-    func updateUi(numberOfStory: Int) {
-        let choice = model[numberOfStory]
-        storyLabel.text = choice.title
-        choiceFirstButton.setTitle(choice.choiceFirst, for: .normal)
-        choiceSecondButton.setTitle(choice.choiceSecond, for: .normal)
+    private func updateUi() {
+        guard let story = storyBrain.getStory(for: currentBranch) else { return }
+        
+        let choiceFirst = story.answers.choiceFirst
+        let choiceSecond = story.answers.choiceSecond
+        
+        storyLabel.text = story.title
+        choiceFirstButton.setTitle(choiceFirst, for: .normal)
+        choiceSecondButton.setTitle(choiceSecond, for: .normal)
     }
+    
+    
+    @IBAction func choiceMade(_ sender: UIButton) {
+        currentBranch = storyBrain.getNextBranch(
+            for: currentBranch,
+            choice: sender == choiceFirstButton
+        )
+        
+        updateUi()
+    }
+    
 }
 

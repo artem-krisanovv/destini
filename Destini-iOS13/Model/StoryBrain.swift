@@ -8,22 +8,19 @@
 
 import Foundation
 
-
-
-import Foundation
-
 final class StoryBrain {
 
-    var storyNumber = 0
+    private let dataSource = DataSource.shared
+    private let model = StoryModel.getStoryData()
 
-     func nextStory(userChoice: String, model: [StoryModel]) {
-        let choice = model[storyNumber]
-        
-        if userChoice == choice.choiceFirst {
-            storyNumber = choice.choiceFirstDestination
-        } else {
-            storyNumber = choice.choiceSecondDestination
-        }
+    func getStory(for  branch: AnswerThread) -> StoryModel? {
+        return model[branch]
+    }
+
+    func getNextBranch(for branch: AnswerThread, choice: Bool) -> AnswerThread {
+        let nextBranches = dataSource.storyRoutes[branch] ?? (.start, .start)
+
+        return choice ? nextBranches.0 : nextBranches.1
     }
 }
 
