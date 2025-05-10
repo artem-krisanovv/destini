@@ -10,22 +10,20 @@ import Foundation
 
 
 
-struct StoryBrain {
-    
+import Foundation
+
+final class StoryBrain {
+
     var storyNumber = 0
-    let storyArray = StoryModel.getStoryText()
-    
-    mutating func nextStory(userChoice: String) {
-        let choice = storyArray[numberOfStory()]
+
+     func nextStory(userChoice: String, model: [StoryModel]) {
+        let choice = model[storyNumber]
+        
         if userChoice == choice.choiceFirst {
             storyNumber = choice.choiceFirstDestination
         } else {
             storyNumber = choice.choiceSecondDestination
         }
-    }
-    
-    func numberOfStory() -> Int {
-        return storyNumber
     }
 }
 

@@ -14,14 +14,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var choiceFirstButton: UIButton!
     @IBOutlet weak var choiceSecondButton: UIButton!
     
-    var storyBrain = StoryBrain.numberOfStory
+    var storyBrain = StoryBrain()
+    let model = StoryModel.getStoryText()
+
     
     
     
     @IBAction func choiceMade(_ sender: UIButton) {
-        let userChoice = sender.currentTitle ?? ""
-        let storyNumber = storyBrain
-        StoryBrain().nextStory(userChoice: userChoice)
+       guard let userChoice = sender.currentTitle else { return }
+        storyBrain.nextStory(userChoice: userChoice, model: model)
+        let storyNumber = storyBrain.storyNumber
         updateUi(numberOfStory: storyNumber)
     }
     
@@ -31,7 +33,7 @@ class ViewController: UIViewController {
     }
     
     func updateUi(numberOfStory: Int) {
-        let choice = StoryModel.getStoryText()[storyBrain]
+        let choice = model[numberOfStory]
         storyLabel.text = choice.title
         choiceFirstButton.setTitle(choice.choiceFirst, for: .normal)
         choiceSecondButton.setTitle(choice.choiceSecond, for: .normal)
